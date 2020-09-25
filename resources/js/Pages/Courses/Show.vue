@@ -9,14 +9,22 @@
 
             <div class="py-4 text-base text-gray-500">{{ this.courseShow.episodes[this.currentKey].description }}</div>
 
+            <div class="py-6">
+                <progress-bar :watched-episodes="watched" :episodes="course.episodes"/>
+            </div>
+
             <div class="mt-8">
                 <ul v-for="(episode, index) in this.course.episodes" v-bind:key="episode.id">
-                    <li class="mt-3">
-                        Episode n° {{ index +1 }} - {{ episode.title }}
-                        <button class="text-gray-500 focus:outline-none focus:text-gray-400"
-                                @click="switchEpisode(index)">
-                            Voir l'épisode
-                        </button>
+                    <li class="flex items-center justify-between mt-3">
+                        <div class="flex items-center">
+                            Episode n° {{ index +1 }} - {{ episode.title }}
+                            <button class="text-gray-500 focus:outline-none focus:text-gray-400"
+                                    @click="switchEpisode(index)">
+                                Voir l'épisode
+                            </button>
+                        </div>
+                        <progress-button :episode-id="episode.id" :watched-episodes = "watched"/>
+
                     </li>
                 </ul>
             </div>
@@ -25,13 +33,17 @@
 </template>
 
 <script>
-    import AppLayout from './../../Layouts/AppLayout'
+    import AppLayout from './../../Layouts/AppLayout';
+    import ProgressButton from './ProgressButton';
+    import ProgressBar from './ProgressBar';
 
     export default {
         components: {
-            AppLayout
+            AppLayout,
+            ProgressButton,
+            ProgressBar,
         },
-        props : ['course'],
+        props : ['course', 'watched'],
 
         data() {
             return {
